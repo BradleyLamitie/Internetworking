@@ -1,0 +1,20 @@
+Router0(config)#enable password cisco
+Router0(config)#ip dhcp pool pool1
+Router0(dhcp-config)# network 10.10.10.0 255.255.255.0
+Router0(dhcp-config)# default-router 10.10.10.254
+Router0(dhcp-config)# dns-server 10.10.10.254
+Router0(dhcp-config)#interface GigabitEthernet0/0
+Router0(config-if)# description gateway dhcp-router
+Router0(config-if)# ip address 10.10.10.254 255.255.255.0
+Router0(config-if)#  no shut
+Router0(config-if)#
+Router0(config-if)#interface GigabitEthernet0/1
+Router0(config-if)# description gateway dhcp-relay
+Router0(config-if)# ip address 20.20.20.254 255.255.255.0
+Router0(config-if)# ip helper-address 30.30.30.30
+Router0(config-if)# no shut
+Router0(config-if)#interface GigabitEthernet0/2
+Router0(config-if)# description gateway dhcp-local
+Router0(config-if)# ip address 30.30.30.254 255.255.255.0
+Router0(config-if)#  no shut
+Router0(config-if)#		

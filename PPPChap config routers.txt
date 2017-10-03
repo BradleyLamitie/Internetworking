@@ -1,0 +1,38 @@
+Router0(config)#enable password cisco
+Router0(config)#ip dhcp excluded-address 10.55.1.254
+Router0(config)#ip dhcp pool pool1
+Router0(dhcp-config)# network 10.55.1.0 255.255.255.0
+Router0(dhcp-config)# default-router 10.55.1.254
+Router0(dhcp-config)# dns-server 8.8.8.8
+Router0(dhcp-config)#username Router1 password 0 c1sco
+Router0(config)#interface FastEthernet0/0
+Router0(config-if)# description gateway net1
+Router0(config-if)# ip address 10.55.1.254 255.255.255.0
+Router0(config-if)#no shutdown
+Router0(config-if)#interface Serial0/0/0
+Router0(config-if)# description to public
+Router0(config-if)# ip address 175.111.88.77 255.255.255.0
+Router0(config-if)# encapsulation ppp
+Router0(config-if)# ppp authentication chap
+Router0(config-if)#no shutdown
+Router0(config-if)#ip route 0.0.0.0 0.0.0.0 Serial0/0/0
+Router0(config)#
+
+
+Router1(config)#enable password cisco
+Router1(config)#ip dhcp pool pool1
+Router1(dhcp-config)# network 192.168.10.0 255.255.255.0
+Router1(dhcp-config)# default-router 192.168.10.254
+Router1(dhcp-config)# dns-server 8.8.8.8
+Router1(dhcp-config)#username Router0 password 0 c1sco
+Router1(config)#interface FastEthernet0/0
+Router1(config-if)# description net2
+Router1(config-if)# ip address 192.168.10.254 255.255.255.0
+Router1(config-if)#interface Serial0/0/0
+Router1(config-if)# description to public
+Router1(config-if)# ip address 175.111.88.99 255.255.255.0
+Router1(config-if)# encapsulation ppp
+Router1(config-if)# ppp authentication chap
+Router1(config-if)# clock rate 2000000
+Router1(config-if)#ip route 0.0.0.0 0.0.0.0 Serial0/0/0
+Router1(config)#

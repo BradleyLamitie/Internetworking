@@ -1,0 +1,38 @@
+Router(config)#hostname Router0
+Router0(config)#enable password cisco
+Router0(config)#ip dhcp excluded-address 192.168.10.1 192.168.10.10
+Router0(config)#ip dhcp pool pool1
+Router0(dhcp-config)# network 192.168.10.0 255.255.255.0
+Router0(dhcp-config)# default-router 192.168.10.1
+Router0(dhcp-config)# dns-server 192.168.1.1
+Router0(dhcp-config)#interface FastEthernet0/0
+Router0(config-if)# description gateway net-overload
+Router0(config-if)# ip address 192.168.10.1 255.255.255.0
+Router0(config-if)# ip nat inside
+Router0(config-if)# no shutdown
+Router0(config-if)#interface Serial0/0/0
+Router0(config-if)# description to public
+Router0(config-if)# ip address 103.23.224.10 255.255.255.0
+Router0(config-if)# ip nat outside
+Router0(config-if)# no shutdown
+Router0(config-if)#ip nat inside source list 1 interface Serial0/0/0 overload
+Router0(config)#ip route 0.0.0.0 0.0.0.0 Serial0/0/0 
+Router0(config)#access-list 1 permit 192.168.10.0 0.0.0.255
+
+
+Router2(config)#hostname Router2
+Router2(config)#enable password cisco
+Router2(config)#interface FastEthernet0/0
+Router2(config-if)# description gateway dmz
+Router2(config-if)# ip address 10.10.10.254 255.255.255.0
+Router2(config-if)# ip nat inside
+Router2(config-if)# no shutdown
+Router2(config-if)#interface Serial0/0/0
+Router2(config-if)# description to public
+Router2(config-if)# ip address 103.23.224.99 255.255.255.0
+Router2(config-if)# ip nat outside
+Router2(config-if)# clock rate 2000000
+Router2(config-if)# no shutdown
+Router2(config-if)#ip nat inside source static 10.10.10.10 103.23.224.100 
+Router2(config)#ip route 0.0.0.0 0.0.0.0 Serial0/0/0 
+Router2(config)#
